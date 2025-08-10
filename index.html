@@ -1,16 +1,491 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Age Calculator</title>
-        <link rel="stylesheet" href="CSS/style.css">
-    </head>
-    <body>
-<div class="box">
-    <h3>Age Calculator</h3>
-    <input type="date" id="dob" onchange="calculateAge()"/>
-    <div class="result" id="result">Select your birthdate </div>
-   </div> 
-    <script src="JS/javascript.js" defer></script>
-    </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mahfuz Khan Asif - Portfolio</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    /* Reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #121212;
+      color: #eee;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    a {
+      color: #f3971b;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    a:hover,
+    a:focus {
+      color: #ffb347;
+      outline: none;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(243, 151, 27, 0.4);
+      transition: transform 0.3s ease;
+    }
+    img:hover {
+      transform: scale(1.05);
+    }
+    h1, h2, h3 {
+      color: #f3971b;
+      margin-bottom: 1rem;
+    }
+    p {
+      color: #ddd;
+      margin-bottom: 1.2rem;
+    }
+
+    /* Container */
+    .container {
+      width: 90%;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      background: #f3971b;
+      padding: 15px 0;
+      box-shadow: 0 4px 10px rgba(243, 151, 27, 0.7);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    header .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #000;
+    }
+    header .logo i {
+      font-size: 2rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+    nav ul li {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    nav ul li a {
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+    nav ul li a:hover,
+    nav ul li a:focus {
+      background: #fff3e0;
+      color: #f3971b;
+    }
+
+    /* Hero Section */
+    #home {
+      background: linear-gradient(
+          135deg,
+          rgba(243, 151, 27, 0.9),
+          rgba(255, 180, 71, 0.8)
+        ),
+        url('mahfuz.jpeg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      flex-direction: column;
+      padding: 0 20px;
+      box-shadow: inset 0 0 0 1000px rgba(18, 18, 18, 0.5);
+    }
+    #home h1 {
+      font-size: 3.5rem;
+      text-shadow: 2px 2px 6px #000000a0;
+    }
+    #home h2 {
+      font-size: 2.5rem;
+      margin: 1rem 0;
+      font-weight: 700;
+      text-shadow: 1px 1px 5px #000000a0;
+    }
+    #home p {
+      font-size: 1.25rem;
+      font-weight: 600;
+      text-shadow: 1px 1px 3px #000000a0;
+    }
+
+    /* Section Titles */
+    section h2 {
+      text-align: center;
+      font-size: 2.8rem;
+      margin: 40px 0 20px;
+      color: #f3971b;
+      position: relative;
+    }
+    section h2::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 4px;
+      background: #f3971b;
+      margin: 8px auto 0;
+      border-radius: 2px;
+    }
+
+    /* About Section */
+    #about {
+      background: #1e1e1e;
+      padding: 60px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 40px;
+      justify-content: center;
+    }
+    #about img {
+      width: 320px;
+      max-width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(243, 151, 27, 0.7);
+      transition: transform 0.3s ease;
+    }
+    #about img:hover {
+      transform: scale(1.08);
+    }
+    #about .about-text {
+      max-width: 600px;
+      color: #eee;
+      font-size: 1.15rem;
+      line-height: 1.6;
+    }
+
+    /* Achievements Section */
+    #achievements {
+      background: #f0e6d2;
+      padding: 60px 20px;
+      color: #292929;
+    }
+    #achievements ul {
+      max-width: 700px;
+      margin: 0 auto 40px;
+      list-style: inside disc;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    #achievements a {
+      color: #f3971b;
+      font-weight: 700;
+    }
+    #achievements a:hover {
+      color: #ffb347;
+    }
+    #achievements iframe {
+      display: block;
+      margin: 30px auto 0;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(243, 151, 27, 0.5);
+      max-width: 100%;
+      height: 250px;
+    }
+    #achievements audio {
+      display: block;
+      margin: 15px auto;
+      width: 100%;
+      max-width: 500px;
+      outline: none;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(243, 151, 27, 0.4);
+    }
+    #achievements h3 {
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 15px;
+      color: #f3971b;
+    }
+    #achievements img {
+      display: block;
+      margin: 20px auto 0;
+      max-width: 180px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(243, 151, 27, 0.7);
+    }
+
+    /* Contact Section */
+    #contact {
+      background: #1e1e1e;
+      padding: 60px 20px;
+      color: #eee;
+    }
+    #contact form {
+      max-width: 600px;
+      margin: 0 auto;
+      background: #292929;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(243, 151, 27, 0.7);
+    }
+    #contact label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+      color: #f3971b;
+    }
+    #contact input,
+    #contact textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #121212;
+      color: #eee;
+      box-shadow: inset 0 0 6px #f3971b;
+      transition: box-shadow 0.3s ease;
+      resize: vertical;
+    }
+    #contact input:focus,
+    #contact textarea:focus {
+      outline: none;
+      box-shadow: 0 0 8px #ffb347;
+    }
+    #contact button {
+      background: #f3971b;
+      border: none;
+      color: #121212;
+      font-weight: 700;
+      padding: 12px 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background 0.3s ease;
+      width: 100%;
+    }
+    #contact button:hover,
+    #contact button:focus {
+      background: #ffb347;
+      color: #000;
+      outline: none;
+    }
+
+    /* Footer */
+    footer {
+      background: #292929;
+      padding: 20px 0;
+      color: #eee;
+      margin-top: auto;
+    }
+    footer .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    footer .container div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #f3971b;
+      cursor: pointer;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    footer .container div:hover {
+      color: #ffb347;
+    }
+    footer .top-link {
+      margin-left: auto;
+      color: #f3971b;
+      font-weight: 700;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      padding: 0 10px;
+      transition: color 0.3s ease;
+    }
+    footer .top-link:hover {
+      color: #ffb347;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #about {
+        flex-direction: column;
+        padding: 40px 20px;
+      }
+      #about .about-text {
+        max-width: 100%;
+      }
+      nav ul {
+        flex-direction: column;
+        background: #f3971b;
+        position: absolute;
+        top: 60px;
+        right: 20px;
+        padding: 10px;
+        border-radius: 8px;
+        display: none;
+      }
+      nav ul.active {
+        display: flex;
+      }
+      nav .menu-toggle {
+        display: block;
+        font-size: 1.8rem;
+        color: #fff;
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <i class="fa-solid fa-user-circle"></i>
+        <span>Mahfuz Khan Asif</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#home" tabindex="1">Home</a></li>
+          <li><a href="#about" tabindex="2">About</a></li>
+          <li><a href="#achievements" tabindex="3">Achievements</a></li>
+          <li><a href="#contact" tabindex="4">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <section id="home" role="banner" aria-label="Introduction">
+    <h1>Hi, I'm Mahfuz Khan Asif</h1>
+    <h2>New Programmer</h2>
+    <p>Welcome to my first website. Pardon my mistakes.</p>
+  </section>
+
+  <section id="about" aria-labelledby="about-title">
+    <div class="container">
+      <h2 id="about-title">About Me</h2>
+      <div style="display:flex; flex-wrap: wrap; gap: 40px; align-items:center; justify-content:center;">
+        <img src="mahfuz.jpeg" alt="Mahfuz Khan Asif Portrait" width="350" height="auto" />
+        <div class="about-text">
+          <h3>I am a passionate Programmer</h3>
+          <p>
+            Hi, I'm Mahfuz Khan Asif, a passionate learner on a journey to master
+            the art of programming. I love turning ideas into reality through
+            code and am excited to grow, create, and make a positive impact in
+            the tech world.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="achievements" aria-labelledby="achievements-title">
+    <div class="container">
+      <h2 id="achievements-title">Achievements</h2>
+      <ul>
+        <li>Completed SSC from MOUCHAK IDEAL PUBLIC SCHOOL</li>
+        <li>SSC Batch: 2022, GPA-5</li>
+        <li>Spent 6 years in MOUCHAK IDEAL PUBLIC SCHOOL</li>
+        <li>College: Shafipur Ideal Public College</li>
+        <li>HSC GPA-5</li>
+        <li>Spent 2 years in that college</li>
+        <li>Now I am currently making this website!</li>
+          <li> <a href="https://www.facebook.com/mahfuz.khan.asif.2024" target="_blank" rel="noopener noreferrer">Visit my Facebook</a></li>
+           <li> Some of my projects:</li>
+            <li> <a href="https://mahfuz-eng.github.io/Age-calculator/" target="_blank" rel="noopener noreferrer">Age Calculator</a></li>
+              <li> <a href="https://mahfuz-eng.github.io/love/" target="_blank" rel="noopener noreferrer">For your crush</a></li>
+              <li> <a href="https://mahfuz-eng.github.io/love-version2/" target="_blank">For your Best-Friend</a>
+        </li>
+      </ul>
+      <h3>For fun:</h3>
+      
+      <p>Let’s enjoy some memes too:</p>
+      <iframe
+        width="400"
+        height="250"
+        src="https://www.youtube.com/embed/lg5WKsVnEA4?si=F9-qhNixLPPVCxD8"
+        title="YouTube video player"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+      <br />
+      <a href="https://www.youtube.com/embed/Acjf66Qdj2U?si=1mC9fEHN73R_tm2E" target="_blank" rel="noopener noreferrer"
+        >Click here for more</a
+      >
+      <img src="my.jpeg" alt="Achievement Photo" />
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <h2 id="contact-title">Contact</h2>
+      <form>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required />
+
+        <label for="email">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          placeholder="your.email@example.com"
+          required
+        />
+
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" placeholder="Write your message here" required></textarea>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div><i class="fab fa-facebook-square"></i> Facebook</div>
+      <div><i class="fab fa-twitter-square"></i> Twitter</div>
+      <div><i class="fab fa-instagram"></i> Instagram</div>
+      <div><i class="fab fa-linkedin"></i> LinkedIn</div>
+      <div><i class="fab fa-youtube"></i> YouTube</div>
+      <div><i class="fas fa-rss"></i> Blog</div>
+      <div><i class="fas fa-envelope"></i> Email</div>
+      <div><i class="fas fa-globe"></i> Website</div>
+      <a href="#home" class="top-link" aria-label="Back to top">
+        <i class="fas fa-arrow-circle-up"></i> Top
+      </a>
+    </div>
+  </footer>
+</body>
 </html>
